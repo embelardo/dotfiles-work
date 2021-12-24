@@ -15,6 +15,7 @@ ZSH_CUSTOM=/home/ebelardo/.zsh
 
 plugins=(
 	aliases
+	alias-finder
 	colored-man-pages
 	git
 	mercurial
@@ -47,14 +48,22 @@ alias bbbb='cd ../../../..'
 alias bbbbb='cd ../../../../..'
 
 alias auto='cd ~/auto'
+alias grepo='cd ~/git-repos'
+alias gdotfiles='cd ~/git-repos/dotfiles-work'
 alias perftest='cd ~/intelepacs-perftest'
 
+alias af='alias-finder --longer'
+alias h='history -E'
+alias linkm='ln -s ~/auto/makefile makefile'
 alias m='make'
 alias r='source ~/.zshrc'
+alias wh='fc -W'
 
 alias vncstartfull='vncserver :2 -geometry 3840x1600 &'
 alias vncstarthalf='vncserver :2 -geometry 2000x1600 &'
 alias vncstop='vncserver -kill :2'
+
+unalias history
 
 # Bat #########################################################################
 
@@ -66,7 +75,7 @@ export GIT_PAGER="cat"
 
 # History #####################################################################
 
-HISTORY_IGNORE="b|cd|ll|la|m"
+HISTORY_IGNORE="af|b|cd|ll|la|m"
 export HISTORY_IGNORE="${HISTORY_IGNORE}"
 
 export HISTFILE=~/.zsh_history   # Name history file
