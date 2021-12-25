@@ -5,6 +5,8 @@ SHELL := /usr/local/bin/zsh
 help: ## Show this help
 	@egrep -h '\s##\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
+.PHONY: help
+
 # General #####################################################################
 
 check-agent: ## List keys in ssh-agent
@@ -12,6 +14,50 @@ check-agent: ## List keys in ssh-agent
 
 kill-agents: ## Stop all ssh-agents
 	killall ssh-agent
+
+.PHONY: check-agent kill-agents
+
+# Git #########################################################################
+
+g-add-all: ## Git add all
+	git add --all
+
+g-add: ## Git add items (arg: items)
+	git add $(items)
+
+g-commit: ## Git commit (arg: msg)
+	git commit --message '$(msg)'
+
+g-commit-amend: ## Git commit amend
+	git commit --amend
+
+g-diff: ## Git diff
+	git diff
+
+g-log-graph: ## Git log graph
+	git log --graph
+
+g-log-short-files: ## Git log one-liners (+ time and author) and file list
+	git log --graph --pretty='%Cred%h%Creset - %s %Cgreen(%ar)%C(bold blue)<%an>%Creset%C(auto)%d%Creset' --stat
+
+g-log-short: ## Git log one-liners (+ time and author)
+	git log --graph --pretty='%Cred%h%Creset - %s %Cgreen(%ar)%C(bold blue)<%an>%Creset%C(auto)%d%Creset'
+
+g-log-shorter: ## Git log one-liners
+	git log --graph --oneline --decorate --all
+
+g-push: ## Git push
+	git push
+
+g-push-force: ## Git push
+	git push --force-with-lease
+
+g-status: ## Git status
+	git status
+
+.PHONY: g-add g-add-all g-commit g-commit-amend g-diff g-log-graph
+.PHONY: g-log-short-files g-log-short g-log-shorter g-push g-push-force
+.PHONY: g-status
 
 # IntelePACS ##################################################################
 
@@ -35,6 +81,8 @@ minipacs: ## Start dcmqrscp as MINIPACS:11118
 upload-ebelardo: copy-dcm ## Upload test files to mst1:/home/admin/ebelardo
 	scp -r ipod-files/ebelardo mst1:~
 
+.PHONY: copy-dcm ipod ipod-to-revision java-home minipacs upload-ebelardo
+
 # IntelePACS Performance Testing ##############################################
 
 dc: ## Run docker-compose (args: cmd=[ps, down, up --detach], dir=<folder-containing-docker-compose-file>)
@@ -43,9 +91,6 @@ dc: ## Run docker-compose (args: cmd=[ps, down, up --detach], dir=<folder-contai
 ssh-ec2: ## Log into IPOD-VM EC2 instance (arg: ip)
 	ssh centos@$(ip)
 
-# End #########################################################################
-
-.PHONY: help
-.PHONY: check-agent kill-agents
-.PHONY: copy-dcm ipod ipod-to-revision java-home minipacs upload-ebelardo
 .PHONY: dc ssh-ec2
+
+# eof #########################################################################

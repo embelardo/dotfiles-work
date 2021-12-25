@@ -1,3 +1,5 @@
+# Zsh Init ####################################################################
+
 # Path to your oh-my-zsh installation.
 export ZSH="/home/ebelardo/.oh-my-zsh"
 
@@ -25,19 +27,10 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# Plugin configs ##############################################################
+# Plugin Configs ##############################################################
 
 # colorize (ccat, cless)
 ZSH_COLORIZE_STYLE="solarized-dark"
-
-# SSH Keys ####################################################################
-
-eval `ssh-agent`
-ssh-add ~/.ssh/dev_dsa
-ssh-add ~/.ssh/id_rsa
-echo
-echo 'Identities loaded into ssh-agent:'
-ssh-add -l
 
 # Aliases #####################################################################
 
@@ -48,9 +41,13 @@ alias bbbb='cd ../../../..'
 alias bbbbb='cd ../../../../..'
 
 alias auto='cd ~/auto'
+alias erepo='cd ~/evolve-repos'
 alias grepo='cd ~/git-repos'
 alias gdotfiles='cd ~/git-repos/dotfiles-work'
 alias perftest='cd ~/intelepacs-perftest'
+alias pirates='cd ~/evolve-repos/master-pirates'
+alias e551='cd ~/evolve-repos/master-pirates/PACS-5-5-1'
+
 
 alias af='alias-finder --longer'
 alias h='history -E'
@@ -64,14 +61,6 @@ alias vncstarthalf='vncserver :2 -geometry 2000x1600 &'
 alias vncstop='vncserver -kill :2'
 
 unalias history
-
-# Bat #########################################################################
-
-export BAT_THEME="Solarized (dark)"
-
-# Git #########################################################################
-
-export GIT_PAGER="cat"
 
 # History #####################################################################
 
@@ -96,6 +85,29 @@ unsetopt HIST_IGNORE_DUPS        # Unset option set by unknown actor
 unsetopt HIST_EXPIRE_DUPS_FIRST  # Unset option set by unknown actor
 unsetopt SHARE_HISTORY
 
+# SSH Keys ####################################################################
+
+start-agent() {
+	eval `ssh-agent`
+	ssh-add ~/.ssh/dev_dsa
+	ssh-add ~/.ssh/id_rsa
+	echo
+	echo 'Identities loaded into ssh-agent:'
+	ssh-add -l
+}
+
+# Bat #########################################################################
+
+export BAT_THEME="Solarized (dark)"
+
+# Git #########################################################################
+
+export GIT_PAGER="cat"
+
+# Env Variables ###############################################################
+
+export JAVA_HOME=/opt/intelerad/lib/jvm/jdk-1.8-64
+
 # PATH ########################################################################
 
 DCM4CHE=dcm4che-5.25.0
@@ -106,9 +118,5 @@ else
 	echo "Adding ${DCM4CHE} to PATH."
 	export PATH=/usr/local/${DCM4CHE}/bin:${PATH}
 fi
-
-# Env Variables ###############################################################
-
-export JAVA_HOME=/opt/intelerad/lib/jvm/jdk-1.8-64
 
 # eof #########################################################################
