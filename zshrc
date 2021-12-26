@@ -34,37 +34,68 @@ ZSH_COLORIZE_STYLE="solarized-dark"
 
 # Aliases #####################################################################
 
+DOTFILES=~/git-repos/dotfiles-work
+ZSHRC=~/.zshrc
+
 alias b='cd ..'
 alias bb='cd ../..'
 alias bbb='cd ../../..'
 alias bbbb='cd ../../../..'
 alias bbbbb='cd ../../../../..'
 
+REPOS=~/repos
 alias auto='cd ~/auto'
+alias dotfiles="cd ${DOTFILES}"
+alias repo="cd ${REPOS}"
 alias erepo='cd ~/evolve-repos'
 alias grepo='cd ~/git-repos'
-alias gdotfiles='cd ~/git-repos/dotfiles-work'
 alias perftest='cd ~/intelepacs-perftest'
-alias pirates='cd ~/evolve-repos/master-pirates'
-alias e551='cd ~/evolve-repos/master-pirates/PACS-5-5-1'
 
+alias trunk="cd ${REPOS}/trunk"
+alias 551="cd ${REPOS}/PACS-5-5-1"
+alias 541="cd ${REPOS}/PACS-5-4-1"
+alias 531="cd ${REPOS}/PACS-5-3-1"
+alias 521="cd ${REPOS}/PACS-5-2-1"
+alias 511="cd ${REPOS}/PACS-5-1-1"
+alias 418="cd ${REPOS}/PACS-4-18-1"
+alias 417="cd ${REPOS}/PACS-4-17-1"
+alias 416="cd ${REPOS}/PACS-4-16-1"
+alias 415="cd ${REPOS}/PACS-4-15-1"
+alias 414="cd ${REPOS}/PACS-4-14-1"
+alias 412="cd ${REPOS}/PACS-4-12-1"
+
+PIRATES=~/evolve-repos/master-pirates
+alias pirates="cd ${PIRATES}"
+alias etrunk="cd ${PIRATES}/trunk"
+alias e551="cd ${PIRATES}/PACS-5-5-1"
+alias e541="cd ${PIRATES}/PACS-5-4-1"
+alias e531="cd ${PIRATES}/PACS-5-3-1"
+alias e521="cd ${PIRATES}/PACS-5-2-1"
+alias e511="cd ${PIRATES}/PACS-5-1-1"
+alias e418="cd ${PIRATES}/PACS-4-18-1"
+alias e417="cd ${PIRATES}/PACS-4-17-1"
+alias e416="cd ${PIRATES}/PACS-4-16-1"
+alias e415="cd ${PIRATES}/PACS-4-15-1"
+alias e414="cd ${PIRATES}/PACS-4-14-1"
+alias e412="cd ${PIRATES}/PACS-4-12-1"
 
 alias af='alias-finder --longer'
 alias h='history -E'
 alias linkm='ln -s ~/auto/makefile makefile'
 alias m='make'
-alias r='source ~/.zshrc'
 alias wh='fc -W'
 
 alias vncstartfull='vncserver :2 -geometry 3840x1600 &'
 alias vncstarthalf='vncserver :2 -geometry 2000x1600 &'
 alias vncstop='vncserver -kill :2'
 
+alias szrc="source ${ZSHRC}"
+
 unalias history
 
 # History #####################################################################
 
-HISTORY_IGNORE="af|b|cd|ll|la|m"
+HISTORY_IGNORE="af|b|cd|clear|ll|la|m"
 export HISTORY_IGNORE="${HISTORY_IGNORE}"
 
 export HISTFILE=~/.zsh_history   # Name history file
@@ -75,14 +106,15 @@ export HISTTIMEFORMAT="[%F %T] " # Ex: 18.12.2021 06:49
 setopt EXTENDED_HISTORY          # Saves time command started and how long it ran
 setopt HIST_SAVE_NO_DUPS         # Do not save duplicate line more than once
 setopt HIST_FIND_NO_DUPS         # If duplicate lines saved, don't duplicate them in backward search
-setopt HIST_IGNORE_ALL_DUPS      # Disregard line if already in history
 setopt HIST_IGNORE_SPACE         # Disregard line if it begins with space
 setopt HIST_NO_STORE             # Disregard history or fc command
 setopt HIST_REDUCE_BLANKS        # Remove excess blanks before saving line
 setopt INC_APPEND_HISTORY        # Add line to history upon execution instead of upon exit
 
-unsetopt HIST_IGNORE_DUPS        # Unset option set by unknown actor
-unsetopt HIST_EXPIRE_DUPS_FIRST  # Unset option set by unknown actor
+unsetopt HIST_FIND_NO_DUPS
+unsetopt HIST_IGNORE_ALL_DUPS
+unsetopt HIST_IGNORE_DUPS
+unsetopt HIST_EXPIRE_DUPS_FIRST
 unsetopt SHARE_HISTORY
 
 # SSH Keys ####################################################################
@@ -113,10 +145,78 @@ export JAVA_HOME=/opt/intelerad/lib/jvm/jdk-1.8-64
 DCM4CHE=dcm4che-5.25.0
 if echo ${PATH} | grep ${DCM4CHE}  > /dev/null
 then
-	echo "PATH contains '${DCM4CHE}'. Nothing to do."
+	echo "PATH already contains '${DCM4CHE}'. No need to add."
 else
 	echo "Adding ${DCM4CHE} to PATH."
 	export PATH=/usr/local/${DCM4CHE}/bin:${PATH}
 fi
+
+EBELARDO=ebelardo
+if echo ${PATH} | grep ${EBELARDO}  > /dev/null
+then
+	echo "PATH already contains '${EBELARDO}'. No need to add."
+else
+	echo "Adding ${EBELARDO} to PATH."
+	export PATH=/home/${EBELARDO}/bin:${PATH}
+fi
+
+# Functions ###################################################################
+
+AUTO=~/auto
+HGRC=~/.hgrc
+MAKEFILE=~/makefile
+TMUX_CONF=~/.tmux.conf
+ZSHRC_THEME=~/.zshrc_theme
+
+init-home () {
+    if [ -d "${DOTFILES}" ]; then
+        echo "Folder ${DOTFILES} exists."
+    else
+        echo "Cloning ${DOTFILES} repo."
+        git clone https://github.com/embelardo/dotfiles-work.git ${DOTFILES}
+    fi
+
+    if [ -f "${ZSHRC}" ]; then
+        echo "File ${ZSHRC} exists."
+    else
+        echo "Creating link ${ZSHRC}."
+        ln -s ${DOTFILES}/zshrc ${ZSHRC}
+    fi
+
+    if [ -f "${ZSHRC_THEME}" ]; then
+        echo "File ${ZSHRC_THEME} exists."
+    else
+        echo "Creating link ${ZSHRC_THEME}."
+        ln -s ${DOTFILES}/zshrc_theme ${ZSHRC_THEME}
+    fi
+
+    if [ -d "${AUTO}" ]; then
+        echo "Folder ${AUTO} exists."
+    else
+        echo "Creating link ${AUTO}."
+        ln -s ${DOTFILES}/auto ${AUTO}
+    fi
+
+    if [ -f "${MAKEFILE}" ]; then
+        echo "File ${MAKEFILE} exists."
+    else
+        echo "Creating link ${MAKEFILE}."
+        ln -s ${AUTO}/makefile ${MAKEFILE}
+    fi
+
+    if [ -f "${TMUX_CONF}" ]; then
+        echo "File ${TMUX_CONF} exists."
+    else
+        echo "Creating link ${TMUX_CONF}."
+        ln -s ${DOTFILES}/tmux.conf ${TMUX_CONF}
+    fi
+
+    if [ -f "${HGRC}" ]; then
+        echo "File ${HGRC} exists."
+    else
+        echo "Creating link ${HGRC}."
+        ln -s ${DOTFILES}/hgrc ${HGRC}
+    fi
+}
 
 # eof #########################################################################

@@ -86,4 +86,3 @@ SPACESHIP_PROMPT_ORDER=(
     line_sep   # Line break
     char       # Prompt character
 )
-
