@@ -128,6 +128,10 @@ start-agent() {
 	ssh-add -l
 }
 
+# iTerm2 ######################################################################
+
+source ~/.iterm2_shell_integration.zsh
+
 # Bat #########################################################################
 
 export BAT_THEME="Solarized (dark)"
@@ -151,6 +155,15 @@ else
 	export PATH=/usr/local/${DCM4CHE}/bin:${PATH}
 fi
 
+JDK=openjdk-11-64
+if echo ${PATH} | grep ${JDK}  > /dev/null
+then
+	echo "PATH already contains '${JDK}'. No need to add."
+else
+	echo "Adding ${JDK} to PATH."
+	export PATH=/opt/intelerad/lib/jvm/${JDK}/bin:${PATH}
+fi
+
 EBELARDO=ebelardo
 if echo ${PATH} | grep ${EBELARDO}  > /dev/null
 then
@@ -160,9 +173,19 @@ else
 	export PATH=/home/${EBELARDO}/bin:${PATH}
 fi
 
+SBIN=sbin
+if echo ${PATH} | grep ${SBIN}  > /dev/null
+then
+	echo "PATH already contains '${SBIN}'. No need to add."
+else
+	echo "Adding ${SBIN} to PATH."
+	export PATH=/${SBIN}:/usr/${SBIN}:${PATH}
+fi
+
 # Functions ###################################################################
 
 AUTO=~/auto
+ACKRC=~/.ackrc
 HGRC=~/.hgrc
 MAKEFILE=~/makefile
 TMUX_CONF=~/.tmux.conf
@@ -204,11 +227,11 @@ init-home () {
         ln -s ${AUTO}/makefile ${MAKEFILE}
     fi
 
-    if [ -f "${TMUX_CONF}" ]; then
-        echo "File ${TMUX_CONF} exists."
+    if [ -f "${ACKRC}" ]; then
+        echo "File ${ACKRC} exists."
     else
-        echo "Creating link ${TMUX_CONF}."
-        ln -s ${DOTFILES}/tmux.conf ${TMUX_CONF}
+        echo "Creating link ${ACKRC}."
+        ln -s ${DOTFILES}/ackrc ${ACKRC}
     fi
 
     if [ -f "${HGRC}" ]; then
@@ -216,6 +239,13 @@ init-home () {
     else
         echo "Creating link ${HGRC}."
         ln -s ${DOTFILES}/hgrc ${HGRC}
+    fi
+
+    if [ -f "${TMUX_CONF}" ]; then
+        echo "File ${TMUX_CONF} exists."
+    else
+        echo "Creating link ${TMUX_CONF}."
+        ln -s ${DOTFILES}/tmux.conf ${TMUX_CONF}
     fi
 }
 

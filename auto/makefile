@@ -1,29 +1,37 @@
 DICOM_TEST_FILES := /net/qa-fs1/qa0/TEST_DATA/masData/1image/uncomp
 HOME := /home/ebelardo
+DOTFILES := $(HOME)/git-repos/dotfiles-work
 SHELL := /usr/local/bin/zsh
 
 help: ## Show this help
-	@egrep -h '\s##\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@egrep -h '\s##\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-21s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: help
 
 # General #####################################################################
 
 # Depends on cloud-drive being available.
-create.links: ## Create cloud links
+sh.create.links: ## Create cloud links
 	ln -s ~/cloud-drive/stationwork/doc ~/doc
 	ln -s ~/cloud-drive/stationwork/workspaces ~/workspaces
 
-check.agent: ## List keys in ssh-agent
+sh.check.agent: ## List keys in ssh-agent
 	ssh-add -l
 
-find: ## Find a file (args: dir=[.], name=[*.rpm])
+sh.find: ## Find a file (args: dir=[.], name=[*.rpm])
 	find $(dir) -name "$(name)"
 
-kill.agents: ## Stop all ssh-agents
+sh.java.home: ## Show JAVA_HOME
+	@echo ${JAVA_HOME}
+
+sh.kill.agents: ## Stop all ssh-agents
 	killall ssh-agent
 
-.PHONY: create.links check.agent kill.agents
+sh.start.agent: ## Start ssh-agent with keys
+	@echo 'Run start-agent manually on this terminal'
+
+.PHONY: sh.create.links sh.check.agent sh.java.home sh.kill.agents
+.PHONY: sh.start.agent
 
 # Git #########################################################################
 
@@ -85,37 +93,35 @@ g.status: ## Git status
 
 # IntelePACS ##################################################################
 
-copy.dcm: ## Copy DICOM (.dcm) test files
-	cp $(DICOM_TEST_FILES)/CT/1.3.12.2.1107.5.1.4.43226.30000006101613313904600001754.dcm ipod-files/ebelardo/uncomp_CT.dcm
-	cp $(DICOM_TEST_FILES)/US/1.2.840.113543.6.6.4.3.610210399355452382212753013191393172181.dcm ipod-files/ebelardo/uncomp_US.dcm
-	cp $(DICOM_TEST_FILES)/MG/1.2.840.113986.2.168476677.20070108.111940.482.dcm ipod-files/ebelardo/uncomp_MG.dcm
+pacs.copy.dcm: ## Copy DICOM (.dcm) test files
+	cp $(DICOM_TEST_FILES)/CT/1.3.12.2.1107.5.1.4.43226.30000006101613313904600001754.dcm $(DOTFILES)/auto/ipod-files/ebelardo/uncomp_CT.dcm
+	cp $(DICOM_TEST_FILES)/US/1.2.840.113543.6.6.4.3.610210399355452382212753013191393172181.dcm $(DOTFILES)/auto/ipod-files/ebelardo/uncomp_US.dcm
+	cp $(DICOM_TEST_FILES)/MG/1.2.840.113986.2.168476677.20070108.111940.482.dcm $(DOTFILES)/auto/ipod-files/ebelardo/uncomp_MG.dcm
 
-ipod: ## Run IPOD gradle task (args: task=[startTestingPacs, stopPacs, cleanPacs], config)
+pacs.ipod: ## Run IPOD gradle task (args: task=[startTestingPacs, stopPacs, cleanPacs], config)
 	./gradlew $(task) -PcustomConfig=$(config).groovy
 
-ipod.to.revision: ## Get the hg revision of an IPOD (arg: pacs=[PACS-5-5-1-P22])
+pacs.ipod.revision: ## Get the hg revision of an IPOD (arg: pacs=[PACS-5-5-1-P22])
 	lynx https://buildweb.intelerad.com/view_build/$(pacs)
 
-java.home: ## Show JAVA_HOME
-	@echo ${JAVA_HOME}
-
-minipacs: ## Start dcmqrscp as MINIPACS:11118
+pacs.minipacs: ## Start dcmqrscp as MINIPACS:11118
 	dcmqrscp --ae-config $(HOME)/etc/ae.properties --stgcmt-same-assoc --bind MINIPACS:11118 --dicomdir $(HOME)/var/DICOMDIR &
 
-upload.ebelardo: copy-dcm ## Upload test files to mst1:/home/admin/ebelardo
-	scp -r ipod-files/ebelardo mst1:~
+pacs.upload.ebelardo: pacs.copy.dcm ## Upload test files to mst1:/home/admin/ebelardo
+	scp -r $(DOTFILES)/auto/ipod-files/ebelardo admin@mst1:~
 
-.PHONY: copy.dcm ipod ipod.to.revision java.home minipacs upload.ebelardo
+.PHONY: pacs.copy.dcm pacs.ipod pacs.ipod.to.revision pacs.minipacs
+.PHONY: pacs.upload.ebelardo
 
 # IntelePACS Performance Testing ##############################################
 
-dc: ## Run docker-compose (args: cmd=[ps, down, up --detach], dir=<docker-compose-file-dir>)
+pt.docker.compose: ## Run docker-compose (args: cmd=[ps, down, up --detach], dir=<docker-compose-file-dir>)
 	docker-compose --file $(dir)/docker-compose.yml $(cmd)
 
-ssh.ec2: ## Log into IPOD-VM EC2 instance (arg: ip)
+pt.ssh.ec2: ## Log into IPOD-VM EC2 instance (arg: ip)
 	ssh centos@$(ip)
 
-.PHONY: dc ssh.ec2
+.PHONY: pt.docker.compose pt.ssh.ec2
 
 # Mercurial ###################################################################
 
