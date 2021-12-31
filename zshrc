@@ -80,22 +80,23 @@ alias e414="cd ${PIRATES}/PACS-4-14-1"
 alias e412="cd ${PIRATES}/PACS-4-12-1"
 
 alias af='alias-finder --longer'
-alias h='history -E'
+alias h='history -t "%Y.%m.%d %H:%M:%S"'
+alias hr='fc -R'
+alias hw='fc -W'
 alias linkm='ln -s ~/auto/makefile makefile'
 alias m='make'
-alias wh='fc -W'
 
 alias vncstartfull='vncserver :2 -geometry 3840x1600 &'
 alias vncstarthalf='vncserver :2 -geometry 2000x1600 &'
 alias vncstop='vncserver -kill :2'
 
-alias szrc="source ${ZSHRC}"
+alias szshrc="source ${ZSHRC}"
 
 unalias history
 
 # History #####################################################################
 
-HISTORY_IGNORE="af|b|cd|clear|ll|la|m"
+HISTORY_IGNORE="af|b|cd|clear|h|hr|hw|linkm|ll|la|m|szrc"
 export HISTORY_IGNORE="${HISTORY_IGNORE}"
 
 export HISTFILE=~/.zsh_history   # Name history file

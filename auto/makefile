@@ -44,6 +44,10 @@ g.add: ## Git add items (arg: files)
 g.commit: ## Git commit (arg: msg)
 	git commit --message '$(msg)'
 
+g.commit.push: ## Git commit and push (arg: msg)
+	git commit --message '$(msg)'
+	git push
+
 g.commit.amend: ## Git commit amend
 	git commit --amend
 
@@ -86,10 +90,10 @@ g.stash.pop: ## Git stash pop
 g.status: ## Git status
 	git status
 
-.PHONY: g.add g.add.all g.commit g.commit.amend g.diff g.log.graph
-.PHONY: g.log.short.files g.log.short g.pull.rebase g.push g.push.force
-.PHONY: g.rebase.continue g.rebase.interactive g.restore.staged g.stash
-.PHONY: g.stash.pop g.status
+.PHONY: g.add g.add.all g.commit g.commit.push g.commit.amend g.diff
+.PHONY: g.log.graph g.log.short.files g.log.short g.pull.rebase g.push
+.PHONY: g.push.force g.rebase.continue g.rebase.interactive g.restore.staged
+.PHONY: g.stash g.stash.pop g.status
 
 # IntelePACS ##################################################################
 
