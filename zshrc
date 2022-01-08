@@ -131,7 +131,7 @@ start-agent() {
 
 # iTerm2 ######################################################################
 
-source ~/.iterm2_shell_integration.zsh
+#source ~/.iterm2_shell_integration.zsh
 
 # Bat #########################################################################
 
@@ -190,6 +190,7 @@ ACKRC=~/.ackrc
 HGRC=~/.hgrc
 MAKEFILE=~/makefile
 TMUX_CONF=~/.tmux.conf
+ZSHRC_HISTORY=~/.zsh_history
 ZSHRC_THEME=~/.zshrc_theme
 
 init-home () {
@@ -206,6 +207,12 @@ init-home () {
         echo "Creating link ${ZSHRC}."
         ln -s ${DOTFILES}/zshrc ${ZSHRC}
     fi
+
+    if [ -f "${ZSHRC_HISTORY}" ]; then
+        rm -f ${ZSHRC_HISTORY}
+    fi
+    echo "Creating link ${ZSHRC_HISTORY}."
+    ln -s ${DOTFILES}/zsh_history ${ZSHRC_HISTORY}
 
     if [ -f "${ZSHRC_THEME}" ]; then
         echo "File ${ZSHRC_THEME} exists."

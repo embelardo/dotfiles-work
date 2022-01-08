@@ -18,6 +18,13 @@ sh.create.links: ## Create cloud links
 sh.check.agent: ## List keys in ssh-agent
 	ssh-add -l
 
+sh.clear: ## Clear screen
+	@clear
+
+sh.clear.scrollback: ## Clear screen and reset scrollback
+	@clear
+	@printf '\e[3J'
+
 sh.find: ## Find a file (args: dir=[.], name=[*.rpm])
 	find $(dir) -name "$(name)"
 
@@ -30,70 +37,97 @@ sh.kill.agents: ## Stop all ssh-agents
 sh.start.agent: ## Start ssh-agent with keys
 	@echo 'Run start-agent manually on this terminal'
 
-.PHONY: sh.create.links sh.check.agent sh.java.home sh.kill.agents
-.PHONY: sh.start.agent
+.PHONY: sh.create.links sh.check.agent sh.clear sh.clear.scrollback
+.PHONY: sh.java.home sh.kill.agents sh.start.agent
 
 # Git #########################################################################
 
-g.add.all: ## Git add all
-	git add --all
-
-g.add: ## Git add items (arg: files)
+git.add: ## Git add items (arg: files)
 	git add $(files)
 
-g.commit: ## Git commit (arg: msg)
+git.add.all: ## Git add all
+	git add --all
+
+git.commit: ## Git commit (arg: msg)
 	git commit --message '$(msg)'
 
-g.commit.push: ## Git commit and push (arg: msg)
-	git commit --message '$(msg)'
-	git push
+git.commit.amend: ## Git commit amend
+	GIT_COMMITTER_DATE="$(shell date)" git commit --amend --date "$(shell date)"
 
-g.commit.amend: ## Git commit amend
-	git commit --amend
-
-g.diff: ## Git diff
-	git diff
-
-g.log.graph: ## Git log graph
-	git log --graph
-
-g.log.short.files: ## Git log one-liners (+ time and author) and file list
-	git log --graph --pretty='%Cred%h%Creset - %s %Cgreen(%ar)%C(bold blue)<%an>%Creset%C(auto)%d%Creset' --stat
-
-g.log.short: ## Git log one-liners (+ time and author)
-	git log --graph --pretty='%Cred%h%Creset - %s %Cgreen(%ar)%C(bold blue)<%an>%Creset%C(auto)%d%Creset'
-
-g.pull.rebase: ## Git pull and rebase current branch after fetch
-	git pull --rebase
-
-g.push: ## Git push
-	git push
-
-g.push.force: ## Git push
+git.commit.amend.push: ## Git commit amend and push force
+	GIT_COMMITTER_DATE="$(shell date)" git commit --amend --date "$(shell date)"
 	git push --force-with-lease
 
-g.rebase.continue: ## Git rebase continue
+git.commit.push: ## Git commit and push (arg: msg)
+	git commit --message '$(msg)'
+	git push
+
+git.diff: sh.clear ## Git diff
+	git diff
+
+git.log.graph: sh.clear ## Git log graph (arg: limit)
+ifdef limit
+	git log --graph --max-count $(limit)
+else
+	git log --graph
+endif
+
+git.log.short: sh.clear ## Git log one-liners (+ time and author) (arg: limit)
+ifdef limit
+	git log --graph \
+	--pretty='%Cred%h%Creset - %s %Cgreen(%ar)%C(bold blue)<%an>%Creset%C(auto)%d%Creset' \
+	--max-count $(limit)
+else
+	git log --graph \
+	--pretty='%Cred%h%Creset - %s %Cgreen(%ar)%C(bold blue)<%an>%Creset%C(auto)%d%Creset'
+endif
+
+git.log.short.files: sh.clear ## Git log one-liners (+ time and author) and file list (arg: limit)
+ifdef limit
+	git log --graph \
+	--pretty='%Cred%h%Creset - %s %Cgreen(%ar)%C(bold blue)<%an>%Creset%C(auto)%d%Creset' \
+	--stat --max-count $(limit)
+else
+	git log --graph \
+	--pretty='%Cred%h%Creset - %s %Cgreen(%ar)%C(bold blue)<%an>%Creset%C(auto)%d%Creset' \
+	--stat
+endif
+
+git.pull.rebase: ## Git pull and rebase current branch after fetch
+	git pull --rebase
+
+git.push: ## Git push
+	git push
+
+git.push.force: ## Git push
+	git push --force-with-lease
+
+git.rebase.continue: ## Git rebase continue
 	git rebase --continue
 
-g.rebase.interactive: ## Git rebase interactive (arg: commit=[3e1aa46])
+git.rebase.interactive: ## Git rebase interactive (arg: commit=[3e1aa46])
 	git rebase --interactive $(commit)
 
-g.restore.staged: ## Move staged files back to working directory (arg: files)
+git.remote.show.origin: ## Show remote origin of this repo
+	git remote show origin
+
+git.restore.staged: ## Move staged files back to working directory (arg: files)
 	git restore --staged $(files)
 
-g.stash: ## Git stash
+git.stash: ## Git stash
 	git stash
 
-g.stash.pop: ## Git stash pop
+git.stash.pop: ## Git stash pop
 	git stash pop
 
-g.status: ## Git status
+git.status: ## Git status
 	git status
 
-.PHONY: g.add g.add.all g.commit g.commit.push g.commit.amend g.diff
-.PHONY: g.log.graph g.log.short.files g.log.short g.pull.rebase g.push
-.PHONY: g.push.force g.rebase.continue g.rebase.interactive g.restore.staged
-.PHONY: g.stash g.stash.pop g.status
+.PHONY: git.add git.add.all git.commit git.commit.amend git.commit.amend.push
+.PHONY: git.commit.push git.diff git.log.graph git.log.short
+.PHONY: git.log.short.files git.pull.rebase git.push git.push.force
+.PHONY: git.rebase.continue git.rebase.interactive git.remote.show.origin
+.PHONY: git.restore.staged git.stash git.stash.pop git.status
 
 # IntelePACS ##################################################################
 
@@ -102,7 +136,7 @@ pacs.copy.dcm: ## Copy DICOM (.dcm) test files
 	cp $(DICOM_TEST_FILES)/US/1.2.840.113543.6.6.4.3.610210399355452382212753013191393172181.dcm $(DOTFILES)/auto/ipod-files/ebelardo/uncomp_US.dcm
 	cp $(DICOM_TEST_FILES)/MG/1.2.840.113986.2.168476677.20070108.111940.482.dcm $(DOTFILES)/auto/ipod-files/ebelardo/uncomp_MG.dcm
 
-pacs.ipod: ## Run IPOD gradle task (args: task=[startTestingPacs, stopPacs, cleanPacs], config)
+pacs.ipod: sh.check.agent ## Run IPOD gradle task (args: task=[startTestingPacs, stopPacs, cleanPacs], config)
 	./gradlew $(task) -PcustomConfig=$(config).groovy
 
 pacs.ipod.revision: ## Get the hg revision of an IPOD (arg: pacs=[PACS-5-5-1-P22])
