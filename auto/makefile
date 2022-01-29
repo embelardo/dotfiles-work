@@ -4,41 +4,9 @@ DOTFILES := $(HOME)/git-repos/dotfiles-work
 SHELL := /usr/local/bin/zsh
 
 help: ## Show this help
-	@egrep -h '\s##\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-21s\033[0m %s\n", $$1, $$2}'
+	@egrep -h '\s##\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-23s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: help
-
-# General #####################################################################
-
-# Depends on cloud-drive being available.
-sh.create.links: ## Create cloud links
-	ln -s ~/cloud-drive/stationwork/doc ~/doc
-	ln -s ~/cloud-drive/stationwork/workspaces ~/workspaces
-
-sh.check.agent: ## List keys in ssh-agent
-	ssh-add -l
-
-sh.clear: ## Clear screen
-	@clear
-
-sh.clear.scrollback: ## Clear screen and reset scrollback
-	@clear
-	@printf '\e[3J'
-
-sh.find: ## Find a file (args: dir=[.], name=[*.rpm])
-	find $(dir) -name "$(name)"
-
-sh.java.home: ## Show JAVA_HOME
-	@echo ${JAVA_HOME}
-
-sh.kill.agents: ## Stop all ssh-agents
-	killall ssh-agent
-
-sh.start.agent: ## Start ssh-agent with keys
-	@echo 'Run start-agent manually on this terminal'
-
-.PHONY: sh.create.links sh.check.agent sh.clear sh.clear.scrollback
-.PHONY: sh.java.home sh.kill.agents sh.start.agent
 
 # Git #########################################################################
 
@@ -172,6 +140,9 @@ hh.pull.update: ## Pull and update to new branch head if new changesets found
 .PHONY: hh.incoming hh.pull.update
 
 # SCons #######################################################################
+
+sh.clear: ## Clear screen
+	@clear
 
 sc.rpm: ## Build RPM for IntelePACS service (arg: service=[LDS])
 ifeq ($(service),LDS)

@@ -43,41 +43,46 @@ alias bbb='cd ../../..'
 alias bbbb='cd ../../../..'
 alias bbbbb='cd ../../../../..'
 
-REPOS=~/repos
 alias auto='cd ~/auto'
+alias doc='cd ~/doc'
+alias workspaces='cd ~/workspaces'
+
+REPOS=~/repos
 alias dotfiles="cd ${DOTFILES}"
 alias repo="cd ${REPOS}"
 alias erepo='cd ~/evolve-repos'
 alias grepo='cd ~/git-repos'
 alias perftest='cd ~/intelepacs-perftest'
 
-alias trunk="cd ${REPOS}/trunk"
-alias 551="cd ${REPOS}/PACS-5-5-1"
-alias 541="cd ${REPOS}/PACS-5-4-1"
-alias 531="cd ${REPOS}/PACS-5-3-1"
-alias 521="cd ${REPOS}/PACS-5-2-1"
-alias 511="cd ${REPOS}/PACS-5-1-1"
-alias 418="cd ${REPOS}/PACS-4-18-1"
-alias 417="cd ${REPOS}/PACS-4-17-1"
-alias 416="cd ${REPOS}/PACS-4-16-1"
-alias 415="cd ${REPOS}/PACS-4-15-1"
-alias 414="cd ${REPOS}/PACS-4-14-1"
-alias 412="cd ${REPOS}/PACS-4-12-1"
+alias rtrunk="cd ${REPOS}/trunk"
+alias r551="cd ${REPOS}/PACS-5-5-1"
+alias r541="cd ${REPOS}/PACS-5-4-1"
+alias r531="cd ${REPOS}/PACS-5-3-1"
+alias r521="cd ${REPOS}/PACS-5-2-1"
+alias r511="cd ${REPOS}/PACS-5-1-1"
+alias r418="cd ${REPOS}/PACS-4-18-1"
+alias r417="cd ${REPOS}/PACS-4-17-1"
+alias r416="cd ${REPOS}/PACS-4-16-1"
+alias r415="cd ${REPOS}/PACS-4-15-1"
+alias r414="cd ${REPOS}/PACS-4-14-1"
+alias r412="cd ${REPOS}/PACS-4-12-1"
 
 PIRATES=~/evolve-repos/master-pirates
 alias pirates="cd ${PIRATES}"
-alias etrunk="cd ${PIRATES}/trunk"
-alias e551="cd ${PIRATES}/PACS-5-5-1"
-alias e541="cd ${PIRATES}/PACS-5-4-1"
-alias e531="cd ${PIRATES}/PACS-5-3-1"
-alias e521="cd ${PIRATES}/PACS-5-2-1"
-alias e511="cd ${PIRATES}/PACS-5-1-1"
-alias e418="cd ${PIRATES}/PACS-4-18-1"
-alias e417="cd ${PIRATES}/PACS-4-17-1"
-alias e416="cd ${PIRATES}/PACS-4-16-1"
-alias e415="cd ${PIRATES}/PACS-4-15-1"
-alias e414="cd ${PIRATES}/PACS-4-14-1"
-alias e412="cd ${PIRATES}/PACS-4-12-1"
+alias trunk="cd ${PIRATES}/trunk"
+alias 551="cd ${PIRATES}/PACS-5-5-1"
+alias 541="cd ${PIRATES}/PACS-5-4-1"
+alias 531="cd ${PIRATES}/PACS-5-3-1"
+alias 521="cd ${PIRATES}/PACS-5-2-1"
+alias 511="cd ${PIRATES}/PACS-5-1-1"
+alias 418="cd ${PIRATES}/PACS-4-18-1"
+alias 417="cd ${PIRATES}/PACS-4-17-1"
+alias 416="cd ${PIRATES}/PACS-4-16-1"
+alias 415="cd ${PIRATES}/PACS-4-15-1"
+alias 414="cd ${PIRATES}/PACS-4-14-1"
+alias 412="cd ${PIRATES}/PACS-4-12-1"
+
+alias gomst1='ssh mst1'
 
 alias af='alias-finder --longer'
 alias h='history -t "%Y.%m.%d %H:%M:%S"'
@@ -86,9 +91,10 @@ alias hw='fc -W'
 alias linkm='ln -s ~/auto/makefile makefile'
 alias m='make'
 
-alias vncstartfull='vncserver :2 -geometry 3840x1600 &'
-alias vncstarthalf='vncserver :2 -geometry 2000x1600 &'
-alias vncstop='vncserver -kill :2'
+alias vgo1='vncserver :2 -geometry 3840x1600 &'
+alias vgo2='vncserver :2 -geometry 2000x1600 &'
+alias vgo3='vncserver :2 -geometry 2665x1600 &'
+alias vstop='vncserver -kill :2'
 
 alias szshrc="source ${ZSHRC}"
 
@@ -256,5 +262,9 @@ init-home () {
         ln -s ${DOTFILES}/tmux.conf ${TMUX_CONF}
     fi
 }
+
+# Mercurial ###################################################################
+
+
 
 # eof #########################################################################

@@ -44,6 +44,19 @@ SPACESHIP_GIT_BRANCH_PREFIX=""
 SPACESHIP_GIT_STATUS_SHOW=true
 SPACESHIP_GIT_STATUS_COLOR=magenta
 
+# Mercurial (hg)
+SPACESHIP_HG_SHOW=true
+SPACESHIP_HG_PREFIX=""
+SPACESHIP_HG_SUFFIX=""
+SPACESHIP_HG_SYMBOL=""
+# Mercurial Branch
+SPACESHIP_HG_BRANCH_SHOW=true
+SPACESHIP_HG_BRANCH_PREFIX=" hg("
+SPACESHIP_HG_BRANCH_SUFFIX=")"
+SPACESHIP_HG_BRANCH_COLOR=magenta
+# Mercurial Status
+SPACESHIP_HG_STATUS_SHOW=false
+
 # Virtualenv (venv)
 SPACESHIP_VENV_SHOW=true
 SPACESHIP_VENV_PREFIX=" venv("
@@ -69,7 +82,7 @@ SPACESHIP_DIR_PREFIX=" "
 SPACESHIP_DIR_SUFFIX=""
 
 # Char
-SPACESHIP_CHAR_SYMBOL="\uf641" # nf-mdi-chevron_right
+SPACESHIP_CHAR_SYMBOL=">"
 SPACESHIP_CHAR_PREFIX=""
 SPACESHIP_CHAR_SUFFIX=" "
 SPACESHIP_CHAR_COLOR_SUCCESS=028 # green
@@ -78,8 +91,9 @@ SPACESHIP_CHAR_COLOR_FAILURE=124 # red
 SPACESHIP_PROMPT_ORDER=(
     user       # Username
     host       # Hostname
-    dir        # Current directory
+    dir        # Current director
     git        # Git (git_branch + git_status)
+    hg         # Mercurial (hg_branch  + hg_status)
     venv       # Virtualenv
     exec_time  # Execution time
     exit_code  # Exit code
