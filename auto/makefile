@@ -20,10 +20,10 @@ git.commit: ## Git commit (arg: msg)
 	git commit --message '$(msg)'
 
 git.commit.amend: ## Git commit amend
-	GIT_COMMITTER_DATE="$(shell date)" git commit --amend --date "$(shell date)"
+	git commit --amend --date "$(shell date)"
 
 git.commit.amend.push: ## Git commit amend and push force
-	GIT_COMMITTER_DATE="$(shell date)" git commit --amend --date "$(shell date)"
+	git commit --amend --date "$(shell date)"
 	git push --force-with-lease
 
 git.commit.push: ## Git commit and push (arg: msg)

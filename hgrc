@@ -1,5 +1,29 @@
 [ui]
 username=Emil Belardo <ebelardo@intelerad.com>
+interface = curses
 
 [extensions]
+rebase=
 color =
+convert = 
+graphlog = 
+churn = 
+hgext.mq = 
+hgext.extdiff = 
+purge = 
+hgext.hgk = 
+largefiles =
+histedit = 
+strip =
+shelve =
+pager =
+extdiff =
+
+[defaults]
+revert = --no-backup
+
+[tortoisehg]
+guifork = True
+
+[pager]
+ignore = log, glog

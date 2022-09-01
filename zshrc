@@ -55,6 +55,7 @@ alias grepo='cd ~/git-repos'
 alias perftest='cd ~/intelepacs-perftest'
 
 alias rtrunk="cd ${REPOS}/trunk"
+alias r561="cd ${REPOS}/PACS-5-6-1"
 alias r551="cd ${REPOS}/PACS-5-5-1"
 alias r541="cd ${REPOS}/PACS-5-4-1"
 alias r531="cd ${REPOS}/PACS-5-3-1"
@@ -70,6 +71,7 @@ alias r412="cd ${REPOS}/PACS-4-12-1"
 PIRATES=~/evolve-repos/master-pirates
 alias pirates="cd ${PIRATES}"
 alias trunk="cd ${PIRATES}/trunk"
+alias 561="cd ${PIRATES}/PACS-5-6-1"
 alias 551="cd ${PIRATES}/PACS-5-5-1"
 alias 541="cd ${PIRATES}/PACS-5-4-1"
 alias 531="cd ${PIRATES}/PACS-5-3-1"
@@ -189,6 +191,15 @@ else
 	export PATH=/${SBIN}:/usr/${SBIN}:${PATH}
 fi
 
+BIN=bin
+if echo ${PATH} | grep "/home/ebelardo/${BIN}/"  > /dev/null
+then
+	echo "PATH already contains '/home/ebelardo/${BIN}'. No need to add."
+else
+	echo "Adding ${BIN} to PATH."
+	export PATH=/home/ebelardo/${BIN}:${PATH}
+fi
+
 # Functions ###################################################################
 
 AUTO=~/auto
@@ -268,3 +279,7 @@ init-home () {
 
 
 # eof #########################################################################
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
