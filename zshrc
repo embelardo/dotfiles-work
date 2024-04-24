@@ -1,9 +1,9 @@
 # Zsh Init ####################################################################
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/ebelardo/.oh-my-zsh"
+export ZSH="/home/dev/.oh-my-zsh"
 
-source /home/ebelardo/.zshrc_theme
+source /home/dev/.zshrc_theme
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -13,7 +13,7 @@ ZSH_THEME="spaceship"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
-ZSH_CUSTOM=/home/ebelardo/.zsh
+ZSH_CUSTOM=/home/dev/.oh-my-zsh/custom
 
 plugins=(
 	aliases
@@ -151,7 +151,7 @@ export GIT_PAGER="cat"
 
 # Env Variables ###############################################################
 
-export JAVA_HOME=/opt/intelerad/lib/jvm/jdk-1.8-64
+export JAVA_HOME=/opt/intelerad/lib/jvm/openjdk-11-64
 
 # PATH ########################################################################
 
@@ -173,13 +173,13 @@ else
 	export PATH=/opt/intelerad/lib/jvm/${JDK}/bin:${PATH}
 fi
 
-EBELARDO=ebelardo
-if echo ${PATH} | grep ${EBELARDO}  > /dev/null
+DEV=dev
+if echo ${PATH} | grep ${DEV}  > /dev/null
 then
-	echo "PATH already contains '${EBELARDO}'. No need to add."
+	echo "PATH already contains '${DEV}'. No need to add."
 else
-	echo "Adding ${EBELARDO} to PATH."
-	export PATH=/home/${EBELARDO}/bin:${PATH}
+	echo "Adding ${DEV} to PATH."
+	export PATH=/home/${DEV}/bin:${PATH}
 fi
 
 SBIN=sbin
@@ -192,12 +192,21 @@ else
 fi
 
 BIN=bin
-if echo ${PATH} | grep "/home/ebelardo/${BIN}/"  > /dev/null
+if echo ${PATH} | grep "/home/dev/${BIN}/"  > /dev/null
 then
-	echo "PATH already contains '/home/ebelardo/${BIN}'. No need to add."
+	echo "PATH already contains '/home/dev/${BIN}'. No need to add."
 else
 	echo "Adding ${BIN} to PATH."
-	export PATH=/home/ebelardo/${BIN}:${PATH}
+	export PATH=/home/dev/${BIN}:${PATH}
+fi
+
+INTELERAD_BIN=/opt/intelerad/bin
+if echo ${PATH} | grep "${INTELERAD_BIN}"  > /dev/null
+then
+        echo "PATH already contains '${INTELERAD_BIN}'. No need to add."
+else
+        echo "Adding ${INTELERAD_BIN} to PATH."
+        export PATH=${INTELERAD_BIN}:${PATH}
 fi
 
 # Functions ###################################################################
