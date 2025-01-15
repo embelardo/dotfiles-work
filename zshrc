@@ -86,11 +86,13 @@ alias 412="cd ${PIRATES}/PACS-4-12-1"
 
 alias gomst1='ssh mst1'
 
+alias bat=/usr/local/bat/bat
+
 alias af='alias-finder --longer'
 alias h='history -t "%Y.%m.%d %H:%M:%S"'
 alias hr='fc -R'
 alias hw='fc -W'
-alias linkm='ln -s ~/auto/makefile makefile'
+alias linkm='ln -s ~/dev/dotfiles-work/auto/makefile makefile'
 alias m='make'
 
 alias vgo1='vncserver :2 -geometry 3840x1600 &'
@@ -141,17 +143,14 @@ start-agent() {
 
 #source ~/.iterm2_shell_integration.zsh
 
-# Bat #########################################################################
-
-export BAT_THEME="Solarized (dark)"
-
 # Git #########################################################################
 
 export GIT_PAGER="cat"
 
 # Env Variables ###############################################################
 
-export JAVA_HOME=/opt/intelerad/lib/jvm/openjdk-11-64
+#export JAVA_HOME=/opt/intelerad/lib/jvm/openjdk-11-64
+export JAVA_HOME=/opt/intelerad/lib/jvm/openjdk-17-64
 
 # PATH ########################################################################
 
@@ -164,7 +163,8 @@ else
 	export PATH=/usr/local/${DCM4CHE}/bin:${PATH}
 fi
 
-JDK=openjdk-11-64
+#JDK=openjdk-11-64
+JDK=openjdk-17-64
 if echo ${PATH} | grep ${JDK}  > /dev/null
 then
 	echo "PATH already contains '${JDK}'. No need to add."
@@ -207,6 +207,15 @@ then
 else
         echo "Adding ${INTELERAD_BIN} to PATH."
         export PATH=${INTELERAD_BIN}:${PATH}
+fi
+
+PMD_BIN=pmd-bin-7.1.0/bin
+if echo ${PATH} | grep "${PMD_BIN}" > /dev/null
+then
+	echo "PATH already contains '${PMD_BIN}'. No need to add."
+else
+	echo "Adding ${PMD_BIN} to PATH."
+	export PATH=/home/dev/bin/${PMD_BIN}:${PATH}
 fi
 
 # Functions ###################################################################
