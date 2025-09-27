@@ -34,7 +34,7 @@ ZSH_COLORIZE_STYLE="solarized-dark"
 
 # Aliases #####################################################################
 
-DOTFILES=~/git-repos/dotfiles-work
+DOTFILES=~/dev/dotfiles-work
 ZSHRC=~/.zshrc
 
 alias b='cd ..'
@@ -218,6 +218,9 @@ else
 	export PATH=/home/dev/bin/${PMD_BIN}:${PATH}
 fi
 
+echo "Sourcing SSH Agent startup script."
+source ${DOTFILES}/zshrc_start_ssh_agent.sh
+
 # Functions ###################################################################
 
 AUTO=~/auto
@@ -227,6 +230,7 @@ MAKEFILE=~/makefile
 TMUX_CONF=~/.tmux.conf
 ZSHRC_HISTORY=~/.zsh_history
 ZSHRC_THEME=~/.zshrc_theme
+SSH_AGENT=~/zshrc_start_ssh_agent.sh
 
 init-home () {
     if [ -d "${DOTFILES}" ]; then
@@ -292,9 +296,28 @@ init-home () {
     fi
 }
 
-# Mercurial ###################################################################
+# Rocky8/WSL2 Distro ##########################################################
 
+alias display='echo $DISPLAY'
+# Correct xrdp display, if necessary.
+alias thh='DISPLAY=:14.0 thh &'
+alias kdiff3='DISPLAY=:14.0 kdiff3& '
 
+# Correct xrdb display, if necessary.
+export QT_X11_NO_MITSHM=1
+
+export JAVA_HOME=/opt/intelerad/lib/jvm/openjdk-17-64/
+export REQUESTS_CA_BUNDLE=/etc/pki/tls/certs/ca-bundle.trust.crt
+export NODE_EXTRA_CA_CERTS=/etc/pki/tls/certs/ca-bundle.trust.crt
+export AWS_CA_BUNDLE=/etc/pki/tls/certs/ca-bundle.trust.crt
+
+source /home/dev/repos/productivity-scripts/pacs-builder/pacsBuilder.sh
+source ~/repos/productivity-scripts/mercurial-scripts.sh
+source ~/repos/productivity-scripts/ipod.sh
+source ~/repos/productivity-scripts/configureDevEnv.sh
+configureDevEnv --runIfNeeded
+
+export LDAP_USERNAME=ebelardo
 
 # eof #########################################################################
 
