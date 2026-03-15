@@ -37,56 +37,20 @@ ZSH_COLORIZE_STYLE="solarized-dark"
 DOTFILES=~/dev/dotfiles-work
 ZSHRC=~/.zshrc
 
+# Copilot CLI
+DIR_COPILOT="--add-dir ~/.copilot"
+DIR_COPILOT_KNOWLEDGE="--add-dir ~/.copilot/knowledge"
+DIR_COPILOT_TASKS="--add-dir ~/.copilot/tasks"
+DIR_COPILOT_UTILS="--add-dir ~/.copilot/utils"
+alias copilot="copilot ${DIR_COPILOT} ${DIR_COPILOT_KNOWLEDGE} ${DIR_COPILOT_TASKS} ${DIR_COPILOT_UTILS}"
+
 alias b='cd ..'
 alias bb='cd ../..'
 alias bbb='cd ../../..'
 alias bbbb='cd ../../../..'
 alias bbbbb='cd ../../../../..'
 
-alias auto='cd ~/auto'
-alias doc='cd ~/doc'
-alias workspaces='cd ~/workspaces'
-
-REPOS=~/repos
-alias dotfiles="cd ${DOTFILES}"
-alias repo="cd ${REPOS}"
-alias erepo='cd ~/evolve-repos'
-alias grepo='cd ~/git-repos'
-alias perftest='cd ~/intelepacs-perftest'
-
-alias rtrunk="cd ${REPOS}/trunk"
-alias r561="cd ${REPOS}/PACS-5-6-1"
-alias r551="cd ${REPOS}/PACS-5-5-1"
-alias r541="cd ${REPOS}/PACS-5-4-1"
-alias r531="cd ${REPOS}/PACS-5-3-1"
-alias r521="cd ${REPOS}/PACS-5-2-1"
-alias r511="cd ${REPOS}/PACS-5-1-1"
-alias r418="cd ${REPOS}/PACS-4-18-1"
-alias r417="cd ${REPOS}/PACS-4-17-1"
-alias r416="cd ${REPOS}/PACS-4-16-1"
-alias r415="cd ${REPOS}/PACS-4-15-1"
-alias r414="cd ${REPOS}/PACS-4-14-1"
-alias r412="cd ${REPOS}/PACS-4-12-1"
-
-PIRATES=~/evolve-repos/master-pirates
-alias pirates="cd ${PIRATES}"
-alias trunk="cd ${PIRATES}/trunk"
-alias 561="cd ${PIRATES}/PACS-5-6-1"
-alias 551="cd ${PIRATES}/PACS-5-5-1"
-alias 541="cd ${PIRATES}/PACS-5-4-1"
-alias 531="cd ${PIRATES}/PACS-5-3-1"
-alias 521="cd ${PIRATES}/PACS-5-2-1"
-alias 511="cd ${PIRATES}/PACS-5-1-1"
-alias 418="cd ${PIRATES}/PACS-4-18-1"
-alias 417="cd ${PIRATES}/PACS-4-17-1"
-alias 416="cd ${PIRATES}/PACS-4-16-1"
-alias 415="cd ${PIRATES}/PACS-4-15-1"
-alias 414="cd ${PIRATES}/PACS-4-14-1"
-alias 412="cd ${PIRATES}/PACS-4-12-1"
-
-alias gomst1='ssh mst1'
-
-alias bat=/usr/local/bat/bat
+alias pacs-forward='ssh mst1 -R 6001:localhost:6001 -R 6002:localhost:6002 -R 7000:localhost:7000 -R 11112:localhost:11112 -R 11122:localhost:11122 -R 5001:localhost:5001 -R 5002:localhost:5002 -R 11133:localhost:11133 -R 11134:localhost:11134 -R 8080:localhost:8080 -R 57050:localhost:57050'
 
 alias af='alias-finder --longer'
 alias h='history -t "%Y.%m.%d %H:%M:%S"'
@@ -94,11 +58,6 @@ alias hr='fc -R'
 alias hw='fc -W'
 alias linkm='ln -s ~/dev/dotfiles-work/auto/makefile makefile'
 alias m='make'
-
-alias vgo1='vncserver :2 -geometry 3840x1600 &'
-alias vgo2='vncserver :2 -geometry 2000x1600 &'
-alias vgo3='vncserver :2 -geometry 2665x1600 &'
-alias vstop='vncserver -kill :2'
 
 alias szshrc="source ${ZSHRC}"
 
@@ -319,8 +278,18 @@ configureDevEnv --runIfNeeded
 
 export LDAP_USERNAME=ebelardo
 
-# eof #########################################################################
+# nvm #########################################################################
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+# NVM (Node Version Manager) - Load early for npm packages
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# secrets #####################################################################
+
+# Load local secrets (git-ignored)
+if [ -f ~/.zshrc_local ]; then
+  source ~/.zshrc_local
+fi
+
+# eof #########################################################################

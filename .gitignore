@@ -1,3 +1,4 @@
 /.idea
 /makefile
 *.dcm
+.zshrc_local
